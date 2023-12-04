@@ -1,67 +1,68 @@
 package com.hoangtien2k3.RiverCrossingPuzzle;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.TreeSet;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor(force = true)
+@AllArgsConstructor
 @Data
+@Builder
+@Accessors(fluent = true)
 public class State {
-    private final String bank;
-    private final TreeSet<String> left;
-    private final TreeSet<String> right;
+    private String bank; // Ngân hàng đang hoạt động nơi người nông dân hiện đang ở bờ
+    private TreeSet<String> left; // bờ trái
+    private TreeSet<String> right; // bờ phải
 
     private boolean checkAllowBank(TreeSet<String> b) {
+        // Sói và Cừu cùng nhau không có Người nông dân
         if (b.contains("W") && b.contains("S") && (!b.contains("F")))
             return false;
+        // Cừu và bắp cải cùng nhau không có Nông dân
         return !b.contains("S") || !b.contains("C") || (b.contains("F"));
     }
 
     public boolean isAllow() {
-        if (!checkAllowBank(left)) return false;
-        return checkAllowBank(right);
+        return checkAllowBank(left) && checkAllowBank(right);
     }
 
     public boolean isSolution() {
-        return left.isEmpty()
-                && right.contains("W")
-                && right.contains("S")
-                && right.contains("C")
+        return left.isEmpty() && right.contains("W") && right.contains("S") && right.contains("C")
                 && right.contains("F");
     }
 
     public State transits(String move) {
-        String nBank;
-        TreeSet<String> nLeft = new TreeSet<>();
-        TreeSet<String> nRight = new TreeSet<>();
+        String nbank;
+        TreeSet<String> nleft = new TreeSet<>();
+        TreeSet<String> nright = new TreeSet<>();
 
         if (bank.equalsIgnoreCase("left"))
-            nBank = "right";
+            nbank = "right";
         else
-            nBank = "left";
+            nbank = "left";
 
-        copylist(right, nRight);
-        copylist(left, nLeft);
+        copylist(right, nright);
+        copylist(left, nleft);
 
         for (int i = 0; i < move.length(); i++) {
             String item = move.substring(i, i + 1);
             if (bank.equalsIgnoreCase("left")) {
-                if (nLeft.remove(item))
-                    nRight.add(item);
+                if (nleft.remove(item))
+                    nright.add(item);
                 else
-                    return null;
+                    return null; // trả về null nếu di chuyển chứa
             } else {
-                if (nRight.remove(item))
-                    nLeft.add(item);
+                if (nright.remove(item))
+                    nleft.add(item);
                 else
-                    return null;
+                    return null; // trả về null nếu di chuyển chứa
             }
         }
 
-        return new State(nBank, nLeft, nRight);
+        return new State(nbank, nleft, nright);
     }
 
     private void copylist(TreeSet<String> src, TreeSet<String> dst) {
@@ -71,16 +72,16 @@ public class State {
     public boolean compare(State s) {
         TreeSet<String> tmp;
 
-        if (!s.getBank().equalsIgnoreCase(bank))
+        if (!s.bank.equalsIgnoreCase(bank))
             return false;
 
-        tmp = s.getLeft();
+        tmp = s.left;
         for (String e : left) {
             if (!tmp.contains(e))
                 return false;
         }
 
-        tmp = s.getRight();
+        tmp = s.right;
         for (String e : right) {
             if (!tmp.contains(e))
                 return false;
@@ -92,17 +93,19 @@ public class State {
     @Override
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        ret.append("{L:");
+        ret.append("[L:(");
+
         for (String e : left)
             ret.append(e);
 
-        ret.append(" ");
+        ret.append(")  ");
+        ret.append("R:(");
 
-        ret.append("R:");
         for (String e : right)
             ret.append(e);
 
-        ret.append("}");
+        ret.append(")]");
         return ret.toString();
     }
+
 }

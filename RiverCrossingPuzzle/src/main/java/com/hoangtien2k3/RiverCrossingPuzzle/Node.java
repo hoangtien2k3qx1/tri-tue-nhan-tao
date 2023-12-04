@@ -1,20 +1,22 @@
 package com.hoangtien2k3.RiverCrossingPuzzle;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
 
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
+@Builder
+@Accessors(fluent = true)
 public class Node {
-    public Node parent;
-    public State data;
-    public ArrayList<Node> adjList;
-    public int level;
-    public String move;
+    public Node parent; // Nút cha của nút
+    public State data; // Trạng thái của nút
+    public ArrayList<Node> adjList; // Nút con của nút
+    public int level; // Độ sâu của nút
+    public String move; // Sự di chuyển (chuyển tiếp) tạo ra dòng điện
 
     public Node(State data) {
         parent = null;
@@ -32,9 +34,11 @@ public class Node {
                 ret = true;
                 break;
             }
+
             n = n.parent;
         }
 
         return ret;
     }
+
 }
