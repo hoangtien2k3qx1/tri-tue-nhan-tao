@@ -5,9 +5,6 @@ import lombok.experimental.Accessors;
 
 import java.util.TreeSet;
 
-@Getter
-@Setter
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Data
 @Builder

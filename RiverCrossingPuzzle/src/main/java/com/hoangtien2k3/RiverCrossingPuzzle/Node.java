@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Getter
-@Setter
 @Builder
+@Data
+@With
 @Accessors(fluent = true)
 public class Node {
     public Node parent; // Nút cha của nút
@@ -18,13 +18,13 @@ public class Node {
     public int level; // Độ sâu của nút
     public String move; // Sự di chuyển (chuyển tiếp) tạo ra dòng điện
 
-    public Node(State data) {
-        parent = null;
-        this.data = data;
-        adjList = new ArrayList<>();
-        level = 0;
-        move = "";
-    }
+//    public Node(State data) {
+//        parent = null;
+//        this.data = data;
+//        adjList = new ArrayList<>();
+//        level = 0;
+//        move = "";
+//    }
 
     public boolean isAncestor() {
         Node n = parent;
