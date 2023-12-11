@@ -12,19 +12,11 @@ import java.util.ArrayList;
 @With
 @Accessors(fluent = true)
 public class Node {
-    public Node parent; // Nút cha của nút
-    public State data; // Trạng thái của nút
-    public ArrayList<Node> adjList; // Nút con của nút
-    public int level; // Độ sâu của nút
-    public String move; // Sự di chuyển (chuyển tiếp) tạo ra dòng điện
-
-//    public Node(State data) {
-//        parent = null;
-//        this.data = data;
-//        adjList = new ArrayList<>();
-//        level = 0;
-//        move = "";
-//    }
+    public Node parent;
+    public State data;
+    public ArrayList<Node> adjList;
+    public int level;
+    public String move;
 
     public boolean isAncestor() {
         Node n = parent;
@@ -37,8 +29,6 @@ public class Node {
 
             n = n.parent;
         }
-
         return ret;
     }
-
 }

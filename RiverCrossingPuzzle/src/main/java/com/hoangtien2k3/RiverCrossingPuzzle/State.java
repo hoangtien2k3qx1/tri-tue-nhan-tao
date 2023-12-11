@@ -10,15 +10,13 @@ import java.util.TreeSet;
 @Builder
 @Accessors(fluent = true)
 public class State {
-    private String bank; // Ngân hàng đang hoạt động nơi người nông dân hiện đang ở bờ
-    private TreeSet<String> left; // bờ trái
-    private TreeSet<String> right; // bờ phải
+    private String bank;
+    private TreeSet<String> left;
+    private TreeSet<String> right;
 
     private boolean checkAllowBank(TreeSet<String> b) {
-        // Sói và Cừu cùng nhau không có Người nông dân
         if (b.contains("W") && b.contains("S") && (!b.contains("F")))
             return false;
-        // Cừu và bắp cải cùng nhau không có Nông dân
         return !b.contains("S") || !b.contains("C") || (b.contains("F"));
     }
 
@@ -27,7 +25,10 @@ public class State {
     }
 
     public boolean isSolution() {
-        return left.isEmpty() && right.contains("W") && right.contains("S") && right.contains("C")
+        return left.isEmpty()
+                && right.contains("W")
+                && right.contains("S")
+                && right.contains("C")
                 && right.contains("F");
     }
 
