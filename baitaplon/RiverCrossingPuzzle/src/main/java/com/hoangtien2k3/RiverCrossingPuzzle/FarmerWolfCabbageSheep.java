@@ -22,11 +22,11 @@ public class FarmerWolfCabbageSheep {
             System.out.println("\t* Tiến trình Level " + node.level + ": " + node.data);
 
             for (String m : moves) {
-                State s = node.data.transits(m);
+                State state = node.data.transits(m);
 
-                if (s != null && s.isAllow()) {
-                    Node child = new Node(s);
-                    child.parent = node;x
+                if (state != null && state.isAllow()) {
+                    Node child = new Node(state);
+                    child.parent = node;
                     child.level = node.level + 1;
                     child.move = m + " moves " + child.data.bank();
 
@@ -36,8 +36,10 @@ public class FarmerWolfCabbageSheep {
                             queue.add(child);
                             System.out.println("\t+ Thêm trạng thái: " + child.data);
                         } else {
+
                             solutions.add(child);
                             System.out.println("\t-> Tìm giải pháp: " + child.data);
+
                         }
                     }
                 }
@@ -59,26 +61,26 @@ public class FarmerWolfCabbageSheep {
         }
     }
 
-    public void startDFS(int depth, Node r) {
+    public void startDFS(int depth, Node node) {
         if (depth == 0) {
             System.out.println("Giới hạn độ sâu tối đa");
             return;
         }
 
-        System.out.println("===> Level " + r.level + " " + r.data);
+        System.out.println("Level " + node.level + ": " + node.data);
 
         for (String m : moves) {
-            State s = r.data.transits(m);
+            State s = node.data.transits(m);
 
             if (s != null && s.isAllow()) {
                 Node child = new Node(s);
 
-                child.parent = r;
-                child.level = r.level + 1;
+                child.parent = node;
+                child.level = node.level + 1;
                 child.move = m + " moves " + child.data.bank();
 
                 if (!child.isAncestor()) {
-                    r.adjList.add(child);
+                    node.adjList.add(child);
                     if (child.data.isSolution()) {// Found a solution
                         solutions.add(child);
                         System.out.println("giải pháp: " + child.data);
@@ -95,9 +97,9 @@ public class FarmerWolfCabbageSheep {
         ArrayList<Node> queue = new ArrayList<>();
         queue.add(root);
         while (!queue.isEmpty()) {
-            Node n = queue.remove(0);
-            System.out.println("\tLevel " + n.level + ": " + n.data);
-            ArrayList<Node> adjlist = n.adjList;
+            Node node = queue.remove(0);
+            System.out.println("\tLevel " + node.level + ": " + node.data);
+            ArrayList<Node> adjlist = node.adjList;
             queue.addAll(adjlist);
         }
     }

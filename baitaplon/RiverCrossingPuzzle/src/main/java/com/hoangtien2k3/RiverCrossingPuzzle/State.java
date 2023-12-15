@@ -8,16 +8,11 @@ import java.util.TreeSet;
 @Data
 @Builder
 @Accessors(fluent = true)
+@AllArgsConstructor
 public class State {
     private String bank;
     private TreeSet<String> left;
     private TreeSet<String> right;
-
-    public State(String bank, TreeSet<String> left, TreeSet<String> right) {
-        this.bank = bank;
-        this.left = left;
-        this.right = right;
-    }
 
     private boolean checkAllowBank(TreeSet<String> b) {
         if (b.contains("W") && b.contains("S") && !b.contains("F"))
@@ -38,34 +33,34 @@ public class State {
     }
 
     public State transits(String move) {
-        String nbank;
-        TreeSet<String> nleft = new TreeSet<>();
-        TreeSet<String> nright = new TreeSet<>();
+        String newBank;
+        TreeSet<String> newLeft = new TreeSet<>();
+        TreeSet<String> newRight = new TreeSet<>();
 
         if (bank.equalsIgnoreCase("left"))
-            nbank = "right";
+            newBank = "right";
         else
-            nbank = "left";
+            newBank = "left";
 
-        copylist(right, nright);
-        copylist(left, nleft);
+        copylist(right, newRight);
+        copylist(left, newLeft);
 
         for (int i = 0; i < move.length(); i++) {
             String item = move.substring(i, i + 1);
             if (bank.equalsIgnoreCase("left")) {
-                if (nleft.remove(item))
-                    nright.add(item);
+                if (newLeft.remove(item))
+                    newRight.add(item);
                 else
                     return null; // trả về null nếu di chuyển chứa
             } else {
-                if (nright.remove(item))
-                    nleft.add(item);
+                if (newRight.remove(item))
+                    newLeft.add(item);
                 else
                     return null; // trả về null nếu di chuyển chứa
             }
         }
 
-        return new State(nbank, nleft, nright);
+        return new State(newBank, newLeft, newRight);
     }
 
     private void copylist(TreeSet<String> src, TreeSet<String> dst) {

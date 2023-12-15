@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import java.util.ArrayList;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
 @With
@@ -26,15 +27,15 @@ public class Node {
     }
 
     public boolean isAncestor() {
-        Node n = parent;
+        Node node = parent;
         boolean ret = false;
-        while (n != null) {
-            if (data.compare(n.data)) {
+        while (node != null) {
+            if (data.compare(node.data)) {
                 ret = true;
                 break;
             }
 
-            n = n.parent;
+            node = node.parent;
         }
         return ret;
     }
