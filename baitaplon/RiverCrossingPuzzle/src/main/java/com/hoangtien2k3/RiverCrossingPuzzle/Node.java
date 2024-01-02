@@ -12,30 +12,30 @@ import java.util.ArrayList;
 @With
 @Accessors(fluent = true)
 public class Node {
-    public Node parent;
-    public State data;
+    public Node parent; // F, W, S, C (Con trỏ) // child
+    public State state;
     public ArrayList<Node> adjList;
     public int level;
     public String move;
 
     public Node(State data) {
         this.parent = null;
-        this.data = data;
-        this.adjList = new ArrayList<Node>();
+        this.state = data;
+        this.adjList = new ArrayList<>();
         this.level = 0;
         this.move = "";
     }
 
     public boolean isAncestor() {
-        Node node = parent;
+        Node node = parent; // Node child => Node node = note.parent
         boolean ret = false;
         while (node != null) {
-            if (data.compare(node.data)) {
+            if (state.compare(node.state)) {
                 ret = true;
                 break;
             }
 
-            node = node.parent;
+            node = node.parent; // note = note -> next
         }
         return ret;
     }

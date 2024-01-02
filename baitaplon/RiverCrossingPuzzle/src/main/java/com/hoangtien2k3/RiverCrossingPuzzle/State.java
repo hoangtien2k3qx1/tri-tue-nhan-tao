@@ -10,8 +10,8 @@ import java.util.TreeSet;
 @Accessors(fluent = true)
 @AllArgsConstructor
 public class State {
-    private String bank;
-    private TreeSet<String> left;
+    private String bank; // left or right
+    private TreeSet<String> left; // W, C, S
     private TreeSet<String> right;
 
     private boolean checkAllowBank(TreeSet<String> b) {
@@ -32,6 +32,7 @@ public class State {
                 && right.contains("F");
     }
 
+    // Kiểm tra xem khả năng nhân vật đó qua sông có hợp lệ hay không
     public State transits(String move) {
         String newBank;
         TreeSet<String> newLeft = new TreeSet<>();
@@ -46,7 +47,7 @@ public class State {
         copylist(left, newLeft);
 
         for (int i = 0; i < move.length(); i++) {
-            String item = move.substring(i, i + 1);
+            String item = move.substring(i, i + 1); // F
             if (bank.equalsIgnoreCase("left")) {
                 if (newLeft.remove(item))
                     newRight.add(item);

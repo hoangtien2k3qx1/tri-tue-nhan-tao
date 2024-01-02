@@ -1,5 +1,7 @@
 package com.hoangtien2k3.RiverCrossingPuzzle;
 
+import java.util.ArrayList;
+
 public class Run {
     public static void main(String[] args) {
         System.out.println("=> GIẢI BÀI TOÁN QUA SÔNG - (SÓI, CỪU, BẮP CẢI, NGƯỜI NÔNG DÂN) <=\n");
